@@ -1,64 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { PageShell } from "@/components/site/PageShell";
-import { LogoMarquee } from "@/components/site/Marquee";
-import { Reviews } from "@/components/site/Reviews";
-import { CombinedPackage } from "@/components/site/CombinedPackage";
-
+// The single editing page was split into one page per service — keep old links working.
 export const Route = createFileRoute("/edit")({
-  head: () => ({
-    meta: [
-      { title: "Editing Services — Vertex Media House" },
-      {
-        name: "description",
-        content: "Short-form, long-form and cinematic edits engineered for retention.",
-      },
-      { property: "og:title", content: "Editing Services — Vertex Media House" },
-      {
-        property: "og:description",
-        content: "Short-form, long-form and cinematic edits engineered for retention.",
-      },
-    ],
-  }),
-  component: EditPage,
+  beforeLoad: () => {
+    throw redirect({ to: "/services/$slug", params: { slug: "short-form" }, statusCode: 301 });
+  },
 });
-
-import {
-  Hero,
-  Services,
-  Portfolio,
-  Packages,
-  shortFormItems,
-  cinematicItems,
-  editReviews,
-} from "@/components/edit/EditSections";
-
-function EditPage() {
-  return (
-    <PageShell>
-      <h1 className="sr-only">
-        Design, Automation & Media Production Services
-      </h1>
-      <Hero />
-      <div className="py-8 md:py-10">
-        <LogoMarquee />
-      </div>
-      <Services />
-      <Portfolio
-        items={shortFormItems}
-        title="Short-form Reels."
-        subtitle="Hook in the first second. Captions that keep eyes on screen. Pacing that earns every extra second of watch time. "
-        direction="left"
-      />
-      {/* <Portfolio
-        items={cinematicItems}
-        title="Cinematic Commercials."
-        subtitle="Premium corporate messaging, rich sound design, and color grading tuned for conversion."
-        direction="right"
-      /> */}
-      <Reviews rows={1} items={editReviews} />
-      <Packages />
-      <CombinedPackage />
-    </PageShell>
-  );
-}

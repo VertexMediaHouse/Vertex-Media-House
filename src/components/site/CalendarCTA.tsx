@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
@@ -16,100 +16,6 @@ export function CalendarCTA() {
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState("January 2026");
-
-  // Dynamically inject Cal.com embed script
-  useEffect(() => {
-    const win = window as any;
-    (function (C: any, A: string, L: string) {
-      const p = function (a: any, ar: any) {
-        a.q.push(ar);
-      };
-      const d = C.document;
-      win.Cal =
-        win.Cal ||
-        function () {
-          const cal = win.Cal as any;
-          const ar = arguments as any;
-          if (!cal.loaded) {
-            cal.ns = {};
-            cal.q = cal.q || [];
-            d.head.appendChild(d.createElement("script")).src = A;
-            cal.loaded = true;
-          }
-          if (ar[0] === L) {
-            const api: any = function () {
-              p(api, arguments);
-            };
-            const namespace = ar[1];
-            api.q = api.q || [];
-            if (typeof namespace === "string") {
-              cal.ns[namespace] = cal.ns[namespace] || api;
-              p(cal.ns[namespace], ar);
-              p(cal, ["initNamespace", namespace]);
-            } else p(cal, ar);
-            return;
-          }
-          p(cal, ar);
-        };
-    })(window, "https://app.cal.com/embed/embed.js", "init");
-
-    // Initialize Cal.com namespace
-    if (win.Cal) {
-      win.Cal("init", "15min", { origin: "https://app.cal.com" });
-
-      // Detect current theme from <html> class
-      const isDark = document.documentElement.classList.contains("dark");
-
-      win.Cal.ns["15min"]("ui", {
-        theme: isDark ? "dark" : "light",
-        hideEventTypeDetails: false,
-        layout: "month_view",
-        cssVarsPerTheme: {
-          dark: {
-            "cal-bg": "#030303",
-            "cal-bg-emphasis": "#111111",
-            "cal-bg-subtle": "#0a0a0a",
-            "cal-bg-muted": "#171717",
-            "cal-bg-inverted": "#ffffff",
-            "cal-border": "rgba(255,255,255,0.08)",
-            "cal-border-emphasis": "rgba(255,255,255,0.14)",
-            "cal-border-subtle": "rgba(255,255,255,0.05)",
-            "cal-text": "#e5e5e5",
-            "cal-text-emphasis": "#ffffff",
-            "cal-text-subtle": "#a3a3a3",
-            "cal-text-muted": "#737373",
-            "cal-text-inverted": "#030303",
-            "cal-brand": "#ff4d31",
-            "cal-brand-emphasis": "#e8432b",
-            "cal-brand-text": "#ffffff",
-            "cal-brand-subtle": "rgba(255,77,49,0.15)",
-          },
-          light: {
-            "cal-bg": "#f9fafb",
-            "cal-bg-emphasis": "#ffffff",
-            "cal-bg-subtle": "#f3f4f6",
-            "cal-bg-muted": "#e5e7eb",
-            "cal-bg-inverted": "#111111",
-            "cal-border": "rgba(0,0,0,0.08)",
-            "cal-border-emphasis": "rgba(0,0,0,0.14)",
-            "cal-border-subtle": "rgba(0,0,0,0.05)",
-            "cal-text": "#1a1a1a",
-            "cal-text-emphasis": "#000000",
-            "cal-text-subtle": "#6b7280",
-            "cal-text-muted": "#9ca3af",
-            "cal-text-inverted": "#ffffff",
-            "cal-brand": "#ff4d31",
-            "cal-brand-emphasis": "#e8432b",
-            "cal-brand-text": "#ffffff",
-            "cal-brand-subtle": "rgba(255,77,49,0.1)",
-          },
-        },
-        styles: {
-          branding: { brandColor: "#ff4d31" },
-        },
-      });
-    }
-  }, []);
 
   const days = [
     { day: "", active: false },
@@ -174,8 +80,7 @@ export function CalendarCTA() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-6 text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-neutral-950 dark:text-white"
           >
-            Your business, our expertise –{" "}
-            <span className="text-[#ff4d31]">let's talk!</span>
+            Your business, our expertise – <span className="text-[#ff4d31]">let's talk!</span>
           </motion.h2>
 
           <motion.p
@@ -185,7 +90,8 @@ export function CalendarCTA() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-2xl text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-medium"
           >
-            Book a free 20-minute call with our team. We'll look at your content, design, and workflows — and tell you exactly what we'd fix and how.
+            Book a free 20-minute call with our team. We'll look at your videos and content plan —
+            and tell you exactly what we'd fix and how.
           </motion.p>
 
           {/* Trust badges */}
@@ -198,15 +104,19 @@ export function CalendarCTA() {
           >
             <div className="flex items-center gap-2.5 text-sm text-neutral-600 dark:text-neutral-400">
               <ShieldCheck className="h-4.5 w-4.5 text-[#ff4d31]" />
-              <span>No pitch. No pressure. Just honest feedback on what's working and what isn't</span>
+              <span>
+                No pitch. No pressure. Just honest feedback on what's working and what isn't
+              </span>
             </div>
             <div className="flex items-center gap-2.5 text-sm text-neutral-600 dark:text-neutral-400">
               <UserCheck className="h-4.5 w-4.5 text-emerald-500" />
-              <span>Walk away with a clear action plan for your content, brand, or automation.</span>
+              <span>Walk away with a clear action plan for your video content.</span>
             </div>
             <div className="flex items-center gap-2.5 text-sm text-neutral-600 dark:text-neutral-400">
               <Sparkles className="h-4.5 w-4.5 text-blue-500" />
-              <span>Speak directly with the team that will actually do the work — not a sales rep.</span>
+              <span>
+                Speak directly with the team that will actually do the work — not a sales rep.
+              </span>
             </div>
           </motion.div>
         </div>

@@ -1,181 +1,159 @@
-import { DesignAnimation } from "../animation/DesignAnimation";
-import { EditAnimation } from "../animation/EditAnimation";
-import { AutomationAnimation } from "../animation/AutomationAnimation";
-import * as React from "react";
-import { Sparkles, Code2, Bot, ArrowUpRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-import SpotlightCard from "./SpotlightCard";
-import { Button } from "../ui/button";
+import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight, Check, Eye, MousePointerClick, TrendingUp, Upload, Users } from "lucide-react";
+import { ServiceCard } from "@/components/edit/EditSections";
+import { serviceList } from "@/components/services/ServicePage";
+import { DesignedThumb, posters } from "@/components/services/ServiceVisuals";
+import { SectionGlow } from "./SectionGlow";
 
-type Service = {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  description: string;
-  tag: string;
-  to: string;
-  features: string[];
-  animation: React.ComponentType;
-};
-
-const services: Service[] = [
-  {
-    icon: Sparkles,
-    title: "Design",
-    description:
-      "From your website to your social feed - every touchpoint your audience sees, built to impress and convert.",
-    tag: "01",
-    to: "/design",
-    animation: DesignAnimation,
-    features: [
-      "Website Design",
-      "Pitch Deck Design",
-      "LinkedIn Carousels",
-      "Social Media Creatives",
-      "Thumbnail Design",
-    ],
-  },
-  {
-    icon: Code2,
-    title: "Edit",
-    description:
-      "Raw footage in, scroll-stopping content out. Whether it's a 30-second reel or a 2-hour podcast - we handle the full edit.",
-    tag: "02",
-    to: "/edit",
-    animation: EditAnimation,
-    features: [
-      "Short-Form Editing (Insta, TikTok, Shorts)",
-      "Long-Form Editing",
-      "Content Repurposing Systems",
-      "Retention-Focused Storytelling",
-      "Platform-Optimized Deliverables",
-    ],
-  },
-  {
-    icon: Bot,
-    title: "Automation",
-    description:
-      "We identify the tasks eating your time and replace them with systems that run 24/7 — no extra hires, no extra headaches.",
-    tag: "03",
-    to: "/automate",
-    animation: AutomationAnimation,
-    features: [
-      "Customised workflow automations",
-      "Email & Voice agents",
-      "Content Automation Pipelines",
-      "Lead & CRM Automation",
-      "Multi-agents System",
-    ],
-  },
-];
-
-function ServiceCard({ service, index }: { service: Service; index: number }) {
-  const Animation = service.animation;
-
+/* Two rows of tiles drifting in opposite directions on a tilted plane, fading into the card. */
+function SlantedReel({ rows, speed = 28 }: { rows: React.ReactNode[][]; speed?: number }) {
   return (
-    <SpotlightCard
-      className={cn(
-        "group h-full p-5 md:p-6 rounded-2xl",
-        "liquid-glass dark:!bg-white/[0.04] dark:!shadow-none",
-        "border-white/40 dark:border-white/10",
-        "backdrop-blur-xl backdrop-saturate-150",
-      )}
-      spotlightColor="rgba(120, 140, 180, 0.28)"
-      darkSpotlightColor="rgba(255, 255, 255, 0.18)"
-    >
-      <div style={{ animationDelay: `${index * 60}ms` }} className="relative flex flex-col h-full">
-        {/* Animation container */}
-        <div className="relative aspect-[1.4/1] w-full overflow-hidden rounded-xl bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/20 backdrop-blur-xl backdrop-saturate-150 mb-6">
-          <Animation />
-
-          {/* glass sheen */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-white/20" />
-
-          {/* top glow */}
-          <div className="pointer-events-none absolute -inset-x-4 -top-4 h-12 bg-white/20 blur-2xl opacity-50" />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <span className="inline-flex items-center rounded-sm border border-neutral-200/50 dark:border-white/10 bg-white/50 dark:bg-white/[0.04] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-neutral-800 dark:text-neutral-200">
-            {service.tag}
-          </span>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200/50 dark:border-white/10 bg-white/50 dark:bg-white/[0.02] text-neutral-500 dark:text-neutral-400">
-            <ArrowUpRight className="h-4 w-4" />
-          </div>
-        </div>
-
-        <h3 className="mt-4 text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white">
-          {service.title}
-        </h3>
-
-        <p className="mt-2 text-sm md:text-[15px] leading-snug text-neutral-600 dark:text-neutral-400">
-          {service.description}
-        </p>
-
-        <ul className="mt-5 space-y-2">
-          {service.features.map((feature, i) => (
-            <li
-              key={i}
-              className="flex items-center gap-3 text-[14px] text-neutral-600 dark:text-neutral-400"
-            >
-              <div className="h-1 w-1 rounded-full bg-neutral-400 dark:bg-neutral-600" />
-              {feature}
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-6 flex justify-start">
-          <Button
-            asChild
-            variant="outline"
-            className="rounded-xl px-6 py-3 h-auto w-fit border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-transform hover:scale-[1.03]"
+    <div aria-hidden className="absolute inset-0 pointer-events-none">
+      <div className="absolute -inset-x-1/2 -inset-y-10 flex flex-col justify-center gap-3 -rotate-[10deg]">
+        {rows.map((tiles, r) => (
+          <motion.div
+            key={r}
+            className="flex w-max gap-3"
+            animate={{ x: r % 2 ? ["-50%", "0%"] : ["0%", "-50%"] }}
+            transition={{ duration: speed + r * 6, ease: "linear", repeat: Infinity }}
           >
-            <Link to={service.to}>Explore our services</Link>
-          </Button>
-        </div>
+            {[...tiles, ...tiles].map((t, i) => (
+              <div key={i} className="shrink-0">
+                {t}
+              </div>
+            ))}
+          </motion.div>
+        ))}
       </div>
-    </SpotlightCard>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#ff4d31]/30 via-transparent to-transparent mix-blend-overlay" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/40 to-white dark:from-black/10 dark:via-black/40 dark:to-[#0a0a0a]" />
+    </div>
   );
 }
+
+const reel = (src: string) => (
+  <img src={src} alt="" className="h-32 w-[72px] rounded-lg object-cover ring-1 ring-white/10" />
+);
+const video = (src: string, d: string) => (
+  <div className="relative h-20 w-36 rounded-lg overflow-hidden ring-1 ring-white/10 bg-neutral-900">
+    <img src={src} alt="" className="h-full w-full object-cover object-[50%_25%]" />
+    <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 text-[8px] font-semibold text-white">
+      {d}
+    </span>
+    <span className="absolute bottom-0 left-0 h-0.5 w-2/3 bg-[#ff0033]" />
+  </div>
+);
+const thumb = (src: string, text: string, tone: "yellow" | "white" | "red") => (
+  <div className="relative h-20 w-36 rounded-lg overflow-hidden ring-1 ring-white/10 bg-neutral-900">
+    <DesignedThumb src={src} text={text} tone={tone} />
+  </div>
+);
+const stat = (Icon: typeof Eye, value: string, label: string) => (
+  <div className="flex h-16 w-40 items-center gap-2.5 rounded-lg bg-white dark:bg-neutral-900 px-3 ring-1 ring-black/10 dark:ring-white/10">
+    <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#ff4d31]/15 text-[#ff4d31]">
+      <Icon className="h-4 w-4" />
+    </span>
+    <span>
+      <span className="block text-sm font-bold text-neutral-900 dark:text-white">{value}</span>
+      <span className="block text-[10px] text-neutral-500">{label}</span>
+    </span>
+  </div>
+);
+
+const [p0, p1, p2, p3, p4] = posters;
+const reels: Record<string, React.ReactNode[][]> = {
+  "short-form": [[p1, p2, p3, p4, p0].map(reel), [p4, p0, p1, p3, p2].map(reel)],
+  "long-form": [
+    [video(p1, "42:10"), video(p3, "18:04"), video(p0, "27:33"), video(p4, "12:48")],
+    [video(p2, "35:20"), video(p1, "1:04:12"), video(p4, "22:15"), video(p3, "16:40")],
+  ],
+  thumbnails: [
+    [
+      thumb(p1, "Nobody tells you", "yellow"),
+      thumb(p4, "$0 → $10K", "white"),
+      thumb(p2, "Don't buy this", "red"),
+      thumb(p3, "Day 1 vs 100", "yellow"),
+    ],
+    [
+      thumb(p0, "The 5AM myth", "white"),
+      thumb(p1, "Watch before you quit", "red"),
+      thumb(p3, "I tried it", "yellow"),
+      thumb(p4, "Worth it?", "white"),
+    ],
+  ],
+  "youtube-management": [
+    [
+      stat(Users, "+12.9K", "subscribers"),
+      stat(Eye, "1.3M", "views"),
+      stat(MousePointerClick, "9.4%", "CTR"),
+      stat(TrendingUp, "+214%", "watch time"),
+    ],
+    [
+      stat(Upload, "Fri 5 PM", "scheduled"),
+      stat(Check, "SEO done", "title · tags"),
+      stat(Check, "Replied", "48 comments"),
+      stat(Upload, "3 Shorts", "published"),
+    ],
+  ],
+};
 
 export function Services() {
   return (
     <section
       id="services"
-      className="relative w-full overflow-hidden px-4 sm:px-6 md:px-8 py-12 md:py-20"
+      className="relative w-full overflow-hidden px-4 sm:px-6 md:px-8 py-12 md:py-20 bg-white dark:bg-black"
     >
-      {/* ambient background */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "radial-gradient(60% 50% at 50% 0%, rgba(59,130,246,0.08), transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
-      />
-
+      <SectionGlow />
       <div className="relative mx-auto max-w-7xl">
-        <div className="flex flex-col items-center text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 dark:border-white/10 bg-white/60 dark:bg-white/[0.04] backdrop-blur-md px-3 py-1 text-xs font-medium text-neutral-600 dark:text-neutral-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#ff4d31]" />
+        <div className="flex flex-col items-center text-center mb-8 md:mb-12">
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 dark:border-white/10 bg-white/60 dark:bg-white/[0.04] backdrop-blur-md px-3 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ff4d31] animate-pulse" />
             Services
-          </span>
-          <h2 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-neutral-950 dark:text-white">
-            Everything you need,{" "}
-            <span className="text-[#ff4d31] dark:text-[#ff4d31]">under one roof.</span>
-          </h2>
-          <p className="mt-5 max-w-2xl text-base md:text-lg text-neutral-600 dark:text-neutral-400">
-            Design that builds brands. Edits that grow audiences. Automation that saves hours. All
-            from one team that actually talks to each other.
-          </p>
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mt-6 text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-neutral-950 dark:text-white"
+          >
+            Four services. <span className="text-[#ff4d31]">One channel.</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-6 max-w-2xl text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-medium"
+          >
+            Pick one, or let us run the whole thing. Every service is built around watch time and
+            clicks.
+          </motion.p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {services.map((s, i) => (
-            <ServiceCard key={s.title} service={s} index={i} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {serviceList.map((s, i) => (
+            <Link key={s.slug} to="/services/$slug" params={{ slug: s.slug }} className="block">
+              <ServiceCard
+                icon={s.icon}
+                title={s.name}
+                description={s.summary}
+                index={i}
+                className="h-full min-h-[580px]"
+                top={<SlantedReel rows={reels[s.slug]} />}
+              >
+                <span className="mt-auto pt-6 inline-flex items-center gap-1 text-sm font-semibold text-[#ff4d31]">
+                  Explore{" "}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </ServiceCard>
+            </Link>
           ))}
         </div>
       </div>

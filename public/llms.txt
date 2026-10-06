@@ -1,18 +1,22 @@
 # Vertex Media House - AI Indexing Guide
 
 Site purpose:
-Vertex Media House is a service-based digital agency focused on design, automation, and media production.
+Vertex Media House is a service-based agency focused on video editing and media production.
+Automation and CRM work moved to the sister company Vertex Tech House (vertextechhouse.com).
 
 Core services:
-- Branding and design systems
-- Business automation and workflow optimization
-- Video editing and media production
+- Short-form editing (Reels, Shorts, TikTok)
+- Long-form editing (YouTube, podcasts)
+- YouTube thumbnail design
+- YouTube channel management
 
 Key pages for understanding the business:
 - / → Overview of services
-- /design → Design and branding services
-- /edit → Video and media production
-- /automate → Automation solutions
+- /services/short-form → Short-form editing and packages
+- /services/long-form → Long-form YouTube and podcast editing
+- /services/thumbnails → Thumbnail design
+- /services/youtube-management → YouTube channel management
+- /pricing → Custom package calculator and monthly plans
 
 Content priority order:
 1. Homepage

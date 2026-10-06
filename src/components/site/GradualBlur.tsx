@@ -82,5 +82,3 @@ export function GradualBlur({
     </div>
   );
 }
-
-export default GradualBlur;

@@ -352,3 +352,21 @@
     border-radius: 0.75rem;
   }
 }
+
+/* Looping progress bar / playhead, used instead of re-rendering React on a timer. */
+@keyframes fill-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes sweep-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

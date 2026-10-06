@@ -60,7 +60,11 @@ export function FloatingWidgets() {
       >
         <MessageCircle className="h-5 w-5" />
       </WidgetButton>
-      <WidgetButton label="Email us" ariaLabel="Send us an email" href="mailto:dhrumil@vertexmediahouse.com">
+      <WidgetButton
+        label="Email us"
+        ariaLabel="Send us an email"
+        href="mailto:dhrumil@vertexmediahouse.com"
+      >
         <Mail className="h-5 w-5" />
       </WidgetButton>
       <WidgetButton label="Toggle theme" ariaLabel="Toggle dark mode" onClick={toggle}>

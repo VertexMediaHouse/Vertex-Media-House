@@ -1,44 +1,20 @@
 import * as React from "react";
 import { Logo } from "./Logo";
 import { Link } from "@tanstack/react-router";
-import {
-  ChevronDown,
-  Menu,
-  Palette,
-  Video,
-  Cpu,
-  FolderHeart,
-  HelpCircle,
-  Info,
-} from "lucide-react";
+import { Menu, FolderHeart, HelpCircle, Info, ChevronDown, Tag } from "lucide-react";
+import { serviceList } from "@/components/services/ServicePage";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-
-const services = [
-  { title: "Design", subtitle: "Brand, web, decks & social", to: "/design", icon: Palette },
-  { title: "Edit", subtitle: "Short-form, long-form & cinematic", to: "/edit", icon: Video },
-  { title: "Automate", subtitle: "AI agents, workflows & pipelines", to: "/automate", icon: Cpu },
-] as const;
 
 const navLinks = [
-  { label: "Portfolio", href: "#portfolio", icon: FolderHeart },
-  { label: "Why Us", href: "#why-choose-us", icon: Info },
-  { label: "Reviews", href: "#reviews", icon: HelpCircle },
+  { label: "Portfolio", href: "/#portfolio", icon: FolderHeart },
+  { label: "Why Us", href: "/#why-choose-us", icon: Info },
+  { label: "Reviews", href: "/#reviews", icon: HelpCircle },
+  { label: "Pricing", href: "/pricing", icon: Tag },
 ];
 
 export function Navbar() {
-  const [open, setOpen] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const closeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleEnter = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setOpen(true);
-  };
-  const handleLeave = () => {
-    closeTimer.current = setTimeout(() => setOpen(false), 120);
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full flex justify-center px-4 py-4 pointer-events-none">
@@ -50,55 +26,34 @@ export function Navbar() {
         }}
       >
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <Logo />
+          <Logo wordmark />
         </Link>
 
-        <div className="hidden md:flex items-center gap-1 text-sm mr-4">
-          <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+        <div className="hidden md:flex items-center gap-1 text-sm ml-10 mr-4">
+          <div className="relative group">
             <button
-              className="group inline-flex items-center gap-1 px-3 py-2 rounded-full text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-              aria-haspopup="menu"
-              aria-expanded={open}
-              onClick={(e) => {
-                e.preventDefault();
-                setOpen(!open);
-              }}
+              type="button"
+              className="flex items-center gap-1 px-3 py-2 rounded-full text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
             >
               Services
-              <ChevronDown
-                className={cn(
-                  "h-3.5 w-3.5 transition-transform duration-200",
-                  open && "rotate-180",
-                )}
-              />
+              <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
             </button>
-            <div
-              className={cn(
-                "absolute left-1/2 -translate-x-1/2 top-full pt-3 origin-top transition-all duration-300 ease-out z-50",
-                open
-                  ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-                  : "opacity-0 scale-95 -translate-y-2 pointer-events-none",
-              )}
-            >
-              <div className="min-w-[280px] rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-2xl p-2 overflow-hidden">
-                {services.map((s) => (
+            <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all duration-200">
+              <div className="w-80 rounded-2xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900 p-2 shadow-xl">
+                {serviceList.map((s) => (
                   <Link
-                    key={s.title}
-                    to={s.to}
-                    onClick={() => setOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-200 group/item"
+                    key={s.slug}
+                    to="/services/$slug"
+                    params={{ slug: s.slug }}
+                    className="flex items-start gap-3 rounded-xl p-3 hover:bg-neutral-100 dark:hover:bg-white/5 transition-colors"
                   >
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 group-hover/item:bg-primary/10 group-hover/item:text-primary transition-colors">
-                      <s.icon className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-neutral-900 dark:text-neutral-100 group-hover/item:text-primary transition-colors">
-                        {s.title}
-                      </div>
-                      <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                        {s.subtitle}
-                      </div>
-                    </div>
+                    <s.icon className="h-5 w-5 mt-0.5 shrink-0 text-[#ff4d31]" />
+                    <span>
+                      <span className="block font-semibold text-neutral-900 dark:text-white">
+                        {s.name}
+                      </span>
+                      <span className="block text-xs text-neutral-500">{s.blurb}</span>
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -121,7 +76,7 @@ export function Navbar() {
             asChild
             className="rounded-x bg-green-500 text-white hover:bg-green-600 dark:bg-green-500 dark:text-white dark:hover:bg-green-600 transition-transform hover:scale-[1.03] ml-4"
           >
-            <a href="https://wa.me/+919734437070">Whatsapp</a>
+            <a href="https://wa.me/+919374437070">Whatsapp</a>
           </Button>
           <Button
             className="rounded-x bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 transition-transform hover:scale-[1.03] ml-2"
@@ -144,26 +99,22 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[88vw] sm:w-96 rounded-l-3xl">
               <div className="flex flex-col gap-1 mt-8">
-                <div className="px-2 pb-2 text-xs uppercase tracking-wider text-neutral-500">
+                <p className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wider text-neutral-400">
                   Services
-                </div>
-                {services.map((s) => (
+                </p>
+                {serviceList.map((s) => (
                   <Link
-                    key={s.title}
-                    to={s.to}
+                    key={s.slug}
+                    to="/services/$slug"
+                    params={{ slug: s.slug }}
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                    className="flex items-center gap-4 px-3 py-3 rounded-xl text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
                   >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-100 dark:bg-neutral-800 text-primary">
-                      <s.icon className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium">{s.title}</div>
-                      <div className="text-xs text-neutral-500">{s.subtitle}</div>
-                    </div>
+                    <s.icon className="h-5 w-5 text-[#ff4d31]" />
+                    <span className="text-sm font-medium">{s.name}</span>
                   </Link>
                 ))}
-                <div className="border-t border-neutral-200 dark:border-neutral-800 my-3" />
+                <div className="my-2 h-px bg-neutral-200 dark:bg-white/10" />
                 {navLinks.map((l) => (
                   <a
                     key={l.label}
@@ -179,7 +130,7 @@ export function Navbar() {
                   asChild
                   className="mt-4 rounded-full bg-green-500 text-white hover:bg-green-600 dark:bg-green-500 dark:text-white dark:hover:bg-green-600"
                 >
-                  <a href="https://wa.me/+919734437070" onClick={() => setMobileOpen(false)}>
+                  <a href="https://wa.me/+919374437070" onClick={() => setMobileOpen(false)}>
                     Whatsapp
                   </a>
                 </Button>

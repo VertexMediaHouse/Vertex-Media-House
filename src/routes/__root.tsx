@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { useCalEmbed } from "@/lib/cal";
+import { OG_IMAGE, SITE_NAME, organization, website } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -72,67 +74,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-
-      // SEO TITLE (50–60 chars optimized)
-      {
-        title:
-          "Vertex Media House | Design, Edit & AI Automation",
-      },
-
-      // META DESCRIPTION (service + keyword aligned)
+      // Defaults; each route overrides title, description, og:url and twitter text via seo().
+      { title: "Vertex Media House | Video Editing for Creators & Brands" },
       {
         name: "description",
         content:
-          "Professional design services, automation solutions, and media production. Expert video editing, AI workflows, and digital solutions for modern businesses.",
+          "Short-form reels, long-form YouTube and podcast editing built for retention. Vertex Media House turns raw footage into scroll-stopping content.",
       },
-
-      { name: "author", content: "Vertex Media House" },
-
-      // KEYWORDS (light relevance only)
-      {
-        name: "keywords",
-        content:
-          "design services, automation solutions, media production, video editing, digital agency",
-      },
-
-      // OPEN GRAPH
-      {
-        property: "og:title",
-        content:
-          "Vertex Media House | Design, Automation & Media Production Services",
-      },
-      {
-        property: "og:description",
-        content:
-          "Professional design, automation, and media production services for scaling businesses.",
-      },
+      { name: "robots", content: "index, follow, max-image-preview:large" },
+      { name: "theme-color", content: "#0a0a0a" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       {
-        property: "og:url",
-        content: "https://vertexmediahouse.com/",
+        property: "og:image:alt",
+        content: "Vertex Media House: video editing for creators & brands",
       },
-      {
-        property: "og:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7c1cf225-a6ca-4242-a375-8f9107d0b59d/id-preview-3b216c31--4e4bdf54-aa10-47e6-a843-cf4818e551cc.lovable.app-1778734852182.png",
-      },
-
-      // TWITTER
       { name: "twitter:card", content: "summary_large_image" },
-      {
-        name: "twitter:title",
-        content: "Vertex Media House | Design & Automation",
-      },
-      {
-        name: "twitter:description",
-        content:
-          "Design, automation, and media production services for scaling businesses.",
-      },
-      {
-        name: "twitter:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7c1cf225-a6ca-4242-a375-8f9107d0b59d/id-preview-3b216c31--4e4bdf54-aa10-47e6-a843-cf4818e551cc.lovable.app-1778734852182.png",
-      },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
 
     links: [
@@ -159,15 +121,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "/favicon-16.png",
       },
 
+      { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon-192.png" },
+      { rel: "icon", type: "image/png", sizes: "512x512", href: "/favicon-512.png" },
       {
         rel: "apple-touch-icon",
         href: "/apple-touch-icon.png",
       },
-      {
-        rel: "canonical",
-        href: "https://vertexmediahouse.com/",
-      },
-    ]
+    ],
+    scripts: [organization, website].map((data) => ({
+      type: "application/ld+json",
+      children: JSON.stringify(data),
+    })),
   }),
 
   shellComponent: RootShell,
@@ -194,46 +158,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
           }}
         />
 
-        {/* WebSite Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Vertex Media House",
-              url: "https://vertexmediahouse.com",
-              potentialAction: {
-                "@type": "SearchAction",
-                target:
-                  "https://vertexmediahouse.com/search?q={query}",
-                "query-input": "required name=query",
-              },
-              publisher: {
-                "@type": "Organization",
-                name: "Vertex Media House",
-                url: "https://vertexmediahouse.com",
-              },
-            }),
-          }}
-        />
-
-        {/* Organization Schema */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Vertex Media House",
-              url: "https://vertexmediahouse.com",
-              logo:
-                "https://vertexmediahouse.com/assets/imgs/favicon.svg",
-              sameAs: [],
-            }),
-          }}
-        />
-
         <HeadContent />
       </head>
 
@@ -247,6 +171,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useCalEmbed();
 
   return (
     <QueryClientProvider client={queryClient}>

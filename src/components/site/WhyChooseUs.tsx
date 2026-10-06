@@ -1,6 +1,13 @@
 import React from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { Layers, Zap, Kanban, BadgeCheck, Users, Briefcase } from "lucide-react";
+import {
+  ShieldCheck,
+  Zap,
+  Users,
+  LayoutDashboard,
+  UserRound,
+  MessageSquareText,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import StarBorder from "./StarBorder";
 
@@ -117,40 +124,39 @@ const FeatureCard = ({ icon: Icon, title, description, index }: FeatureCardProps
 
 const features = [
   {
-    icon: Layers,
-    title: "One team. Not three vendors.",
+    icon: ShieldCheck,
+    title: "Copyright-Safe Edits",
     description:
-      "Design, video, and AI under one roof means no miscommunication, no finger-pointing, no 'that's not our department.' Just results.",
+      "We only use licensed music, stock footage, and sound effects. No copyright strikes, no muted videos, no stress.",
   },
   {
     icon: Zap,
-    title: "Fastest Turnaround",
+    title: "Fast Turnaround",
     description:
-      "Reels, edits, design assets, automation setups - delivered fast without the back-and-forth most agencies drag out for weeks.",
-  },
-  {
-    icon: Kanban,
-    title: "You're never left wondering",
-    description:
-      "Every project lives in a shared Notion workspace — timelines, deliverables, feedback, and progress updates all in one place. No chasing. No confusion. Just clarity.",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Nothing leaves without sign-off",
-    description:
-      "Pixel-perfect precision across every frame, every layout, every workflow. We obsess over the details so your audience never notices the effort — only the result.",
+      "Reels and Shorts in 24 to 48 hours, and long videos in just a few days. Quick delivery without cutting corners.",
   },
   {
     icon: Users,
-    title: "A full team, not a one-person show ",
+    title: "In-House Team",
     description:
-      "Dedicated designers, editors, and AI specialists — each an expert in their lane. You get specialist-level quality across all three, every time.",
+      "Editors and designers all work together under one roof. No outsourcing, no random freelancers.",
   },
   {
-    icon: Briefcase,
-    title: "We speak business, not jargon",
+    icon: LayoutDashboard,
+    title: "Project Dashboard",
     description:
-      "No 'synergising deliverables' or 'scalable paradigms.' We tell you what we're building, why it works, and what result to expect.",
+      "Track every video in one place. See what's in progress, what's done, and what's next, anytime.",
+  },
+  {
+    icon: UserRound,
+    title: "Dedicated Manager",
+    description:
+      "One person handles your project from start to finish. You always know who to talk to.",
+  },
+  {
+    icon: MessageSquareText,
+    title: "Clear Updates",
+    description: "Short, simple updates at every step. No chasing, no confusion, no tech jargon.",
   },
 ];
 
@@ -182,7 +188,7 @@ export function WhyChooseUs() {
             className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 dark:border-white/10 bg-white/60 dark:bg-white/[0.04] backdrop-blur-md px-3 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#ff4d31] animate-pulse" />
-            Our Edge
+            Why Us
           </motion.span>
 
           <motion.h2
@@ -192,7 +198,7 @@ export function WhyChooseUs() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-6 text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-neutral-950 dark:text-white"
           >
-            The difference is <span className="text-[#ff4d31] dark:text-[#ff4d31]">in everything.</span>
+            Why creators <span className="text-[#ff4d31] dark:text-[#ff4d31]">choose us.</span>
           </motion.h2>
 
           <motion.p
@@ -202,7 +208,7 @@ export function WhyChooseUs() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-2xl text-lg md:text-xl text-neutral-600 dark:text-neutral-400 font-medium"
           >
-            Three services. One team. Zero compromises on quality, speed, or results.
+            One team. Fast delivery. Clear updates.
           </motion.p>
         </div>
 

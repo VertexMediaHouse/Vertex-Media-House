@@ -12,4 +12,12 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+  allowedHosts: [
+    "https://pioneer-gzip-mailto-qualifications.trycloudflare.com"
+  ],
+  strictPort: true
+}
+  },
 });

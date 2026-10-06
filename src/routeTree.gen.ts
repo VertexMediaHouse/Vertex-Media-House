@@ -9,19 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as EditRouteImport } from './routes/edit'
-import { Route as DesignRouteImport } from './routes/design'
 import { Route as AutomateRouteImport } from './routes/automate'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EditRoute = EditRouteImport.update({
   id: '/edit',
   path: '/edit',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DesignRoute = DesignRouteImport.update({
-  id: '/design',
-  path: '/design',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AutomateRoute = AutomateRouteImport.update({
@@ -34,55 +35,64 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
-  '/design': typeof DesignRoute
   '/edit': typeof EditRoute
+  '/pricing': typeof PricingRoute
+  '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
-  '/design': typeof DesignRoute
   '/edit': typeof EditRoute
+  '/pricing': typeof PricingRoute
+  '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/automate': typeof AutomateRoute
-  '/design': typeof DesignRoute
   '/edit': typeof EditRoute
+  '/pricing': typeof PricingRoute
+  '/services/$slug': typeof ServicesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/automate' | '/design' | '/edit'
+  fullPaths: '/' | '/automate' | '/edit' | '/pricing' | '/services/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/automate' | '/design' | '/edit'
-  id: '__root__' | '/' | '/automate' | '/design' | '/edit'
+  to: '/' | '/automate' | '/edit' | '/pricing' | '/services/$slug'
+  id: '__root__' | '/' | '/automate' | '/edit' | '/pricing' | '/services/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AutomateRoute: typeof AutomateRoute
-  DesignRoute: typeof DesignRoute
   EditRoute: typeof EditRoute
+  PricingRoute: typeof PricingRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/edit': {
       id: '/edit'
       path: '/edit'
       fullPath: '/edit'
       preLoaderRoute: typeof EditRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/design': {
-      id: '/design'
-      path: '/design'
-      fullPath: '/design'
-      preLoaderRoute: typeof DesignRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/automate': {
@@ -99,14 +109,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AutomateRoute: AutomateRoute,
-  DesignRoute: DesignRoute,
   EditRoute: EditRoute,
+  PricingRoute: PricingRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

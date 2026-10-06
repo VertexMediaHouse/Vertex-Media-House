@@ -2,21 +2,90 @@ import React from "react";
 import { motion } from "framer-motion";
 import SpotlightCard from "./SpotlightCard";
 import { cn } from "@/lib/utils";
+import { PlatformIcons, type Platform } from "./PlatformIcons";
 
 interface Review {
   review: string;
   name: string;
   position: string;
   service: string;
+  platforms?: Platform[];
+}
+
+interface VideoTestimonial {
+  src: string;
+  poster?: string;
+  name: string;
+  position: string;
+  quote: string;
+  platforms: Platform[];
+}
+
+// Home page only. TODO: real designations and platforms for each client.
+export const homeReviews: Review[] = [
+  {
+    review: "Very good to work with. Communicated well through the chat through the process.",
+    name: "Tomwdalls",
+    position: "Designation",
+    service: "Video Editing",
+    platforms: ["shorts", "instagram", "tiktok"],
+  },
+  {
+    review: "I am extremely happy and satisfied with the results. Every shot is perfect.",
+    name: "Abelwal",
+    position: "Designation",
+    service: "Video Editing",
+    platforms: ["shorts", "instagram"],
+  },
+];
+
+// Home page only. TODO: drop the two testimonial videos into public/assets/video/testimonials/.
+export const videoTestimonials: VideoTestimonial[] = [
+  {
+    src: "/assets/video/testimonials/1.mp4",
+    name: "Client name",
+    position: "Designation",
+    quote: "One line from the video goes here.",
+    platforms: ["shorts", "instagram", "tiktok"],
+  },
+  {
+    src: "/assets/video/testimonials/2.mp4",
+    name: "Client name",
+    position: "Designation",
+    quote: "One line from the video goes here.",
+    platforms: ["shorts", "instagram", "tiktok"],
+  },
+];
+
+function VideoCard({ t }: { t: VideoTestimonial }) {
+  return (
+    <div className="grid grid-cols-5 gap-5 rounded-2xl border border-white/40 dark:border-white/10 liquid-glass dark:!bg-white/[0.03] p-4 md:p-5">
+      <div className="col-span-2 relative aspect-[9/16] rounded-xl overflow-hidden bg-neutral-900">
+        <video
+          src={t.src}
+          poster={t.poster}
+          controls
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+      <div className="col-span-3 flex flex-col py-2">
+        <span className="text-5xl leading-none font-black text-[#ff4d31]">"</span>
+        <p className="mt-1 text-lg md:text-xl font-semibold leading-snug text-neutral-900 dark:text-white">
+          {t.quote}
+        </p>
+        <div className="mt-auto pt-6 border-t border-neutral-200/50 dark:border-white/5">
+          <p className="text-base font-bold text-neutral-950 dark:text-white">{t.name}</p>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">{t.position}</p>
+          <PlatformIcons items={t.platforms} className="mt-3" />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const reviews: Review[] = [
-  {
-    review: "he was very professional and creative. I'll love to work with him again!",
-    name: "Jerry Stephen",
-    position: "",
-    service: "Pitch Deck",
-  },
   {
     review: "Very good to work with. Communicated well through the chat through the process.",
     name: "Tomwdalls",
@@ -24,46 +93,14 @@ const reviews: Review[] = [
     service: "Video Editing",
   },
   {
-    review:
-      "Great experience working with Dhrumil—detail-oriented, responsive, and consistently delivered on time.",
-    name: "Kweku711",
-    position: "",
-    service: "Website Design",
-  },
-
-  {
-    review: "Dhrumil exceeded expectations and was great to work with.",
-    name: "Saradvij",
-    position: "",
-    service: "AI Automation",
-  },
-  {
     review: "I am extremely happy and satisfied with the results. Every shot is perfect.",
     name: "Abelwal",
     position: "",
     service: "Video Editing",
   },
-  {
-    review: "Dhrumil S. delivered strong, high-quality presentations and exceeded expectations.",
-    name: "Mangtang1",
-    position: "",
-    service: "Pitch Deck",
-  },
-  {
-    review: "I have definitely found my go to person for all marketing creatives!",
-    name: "Stevenkuhn",
-    position: "",
-    service: "Pitch Deck",
-  },
-  {
-    review: "This is our second time working together, and it exceeded my expectations, again..",
-    name: "Primeonecredit",
-    position: "",
-    service: "Web Design",
-  },
 ];
 
-const ReviewCard = ({ review, name, position, service }: Review) => {
+const ReviewCard = ({ review, name, position, platforms }: Review) => {
   return (
     <div className="w-[380px] shrink-0 p-4">
       <SpotlightCard
@@ -90,6 +127,7 @@ const ReviewCard = ({ review, name, position, service }: Review) => {
                   {position}
                 </span>
               </div>
+              {platforms && <PlatformIcons items={platforms} className="mt-2" />}
             </div>
           </div>
         </div>
@@ -98,7 +136,15 @@ const ReviewCard = ({ review, name, position, service }: Review) => {
   );
 };
 
-export function Reviews({ rows = 2, items = reviews }: { rows?: 1 | 2; items?: Review[] }) {
+export function Reviews({
+  rows = 2,
+  items = reviews,
+  videos,
+}: {
+  rows?: 1 | 2;
+  items?: Review[];
+  videos?: VideoTestimonial[];
+}) {
   // Split reviews into rows
   const row1 = rows === 1 ? items : items.slice(0, Math.ceil(items.length / 2));
   const row2 = items.slice(Math.ceil(items.length / 2));
@@ -152,6 +198,14 @@ export function Reviews({ rows = 2, items = reviews }: { rows?: 1 | 2; items?: R
           happened.
         </motion.p>
       </div>
+
+      {videos && (
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 md:px-8 mb-6 grid md:grid-cols-2 gap-6">
+          {videos.map((v, i) => (
+            <VideoCard key={i} t={v} />
+          ))}
+        </div>
+      )}
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <div className="relative flex flex-col gap-4">

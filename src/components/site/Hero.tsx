@@ -37,7 +37,7 @@ export function Hero() {
             <span className="whitespace-nowrap">We help business</span>
             <span className="whitespace-nowrap">& creators with</span>
             <div className="flex items-center gap-3 mt-1 text-5xl sm:text-6xl leading-none font-extrabold whitespace-nowrap">
-              <RotatingWord words={["Designing", "Editing", "Automation"]} />
+              <RotatingWord words={["Reels", "Shorts", "YouTube", "Podcasts"]} />
             </div>
           </div>
 
@@ -66,7 +66,7 @@ export function Hero() {
             </span>
             <div className="mt-4">
               <div className="text-8xl lg:text-9xl leading-none font-extrabold">
-                <RotatingWord words={["Designing", "Editing", "Automation"]} />
+                <RotatingWord words={["Reels", "Shorts", "YouTube", "Podcasts"]} />
               </div>
             </div>
           </div>
@@ -75,8 +75,8 @@ export function Hero() {
           className="animate-fade-up mx-auto mt-6 md:mt-8 max-w-2xl text-lg md:text-xl font-medium text-neutral-700 dark:text-neutral-300"
           style={{ animationDelay: "0.2s" }}
         >
-          We work as creative and tech team handaling boring stuff so that you can focus on taking
-          your business to <b> the mooooooooon!🚀</b>
+          You shoot it, we edit it — scroll-stopping videos built for retention, so you can focus on
+          taking your business to <b> the mooooooooon!🚀</b>
         </p>
         <div
           className="animate-fade-up mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-3"
