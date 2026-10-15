@@ -163,43 +163,43 @@ export function ServiceCard({
 export const shortFormItems = [
   {
     id: "MB1",
-    video: "/assets/video/1.mp4",
+    video: "/assets/video/shortform/1.mp4",
     poster:
       "https://framerusercontent.com/images/FHS0pgop7yjZHlGI56VGYUZULS0.png?width=260&height=462",
   },
   {
     id: "MB2",
-    video: "/assets/video/2.mp4",
+    video: "/assets/video/shortform/2.mp4",
     poster:
       "https://framerusercontent.com/images/4kp2KImAJicjmXIczDErqcpt9FI.png?width=528&height=938",
   },
   {
     id: "MB3",
-    video: "/assets/video/3.mp4",
+    video: "/assets/video/shortform/3.mp4",
     poster:
       "https://framerusercontent.com/images/RJn1eKEVAnvuDEpP5MAM11elvU.png?width=260&height=462",
   },
   {
     id: "MB4",
-    video: "/assets/video/4.mp4",
+    video: "/assets/video/shortform/4.mp4",
     poster:
       "https://framerusercontent.com/images/JZOcw2Qtn21puWJbHgarML3XE.png?width=260&height=462",
   },
   {
     id: "MB5",
-    video: "/assets/video/5.mp4",
+    video: "/assets/video/shortform/5.mp4",
     poster:
       "https://framerusercontent.com/images/5jOtcgkwh7AOIWMWAQXhjcUGSuk.png?width=528&height=938",
   },
   {
     id: "MB6",
-    video: "/assets/video/6.mp4",
+    video: "/assets/video/shortform/6.mp4",
     poster:
       "https://framerusercontent.com/images/RJn1eKEVAnvuDEpP5MAM11elvU.png?width=260&height=462",
   },
   {
     id: "MB7",
-    video: "/assets/video/7.mp4",
+    video: "/assets/video/shortform/7.mp4",
     poster:
       "https://framerusercontent.com/images/JZOcw2Qtn21puWJbHgarML3XE.png?width=260&height=462",
   },

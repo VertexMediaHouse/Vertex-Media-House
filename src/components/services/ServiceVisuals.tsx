@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PlatformIcons } from "@/components/site/PlatformIcons";
+import { SectionGlow } from "@/components/site/SectionGlow";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 export const posters = [
@@ -122,15 +123,15 @@ export function ReelPhones() {
   return (
     <div className="relative h-[460px] sm:h-[574px] flex items-center justify-center">
       <Phone
-        video="/assets/video/2.mp4"
+        video="/assets/video/shortform/2.mp4"
         className="hidden sm:block absolute w-[190px] -translate-x-[165px] -rotate-[9deg] opacity-60"
       />
       <Phone
-        video="/assets/video/3.mp4"
+        video="/assets/video/shortform/3.mp4"
         className="hidden sm:block absolute w-[190px] translate-x-[165px] rotate-[9deg] opacity-60"
       />
 
-      <Phone video="/assets/video/6.mp4" className="relative z-10 w-[205px] sm:w-[250px]">
+      <Phone video="/assets/video/shortform/6.mp4" className="relative z-10 w-[205px] sm:w-[250px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70 z-10" />
         <div className="absolute top-7 left-4 z-20 text-white text-sm font-bold">Reels</div>
 
@@ -209,13 +210,13 @@ export function LongFormPlayer() {
     <div className="w-full max-w-[680px] mx-auto liquid-glass rounded-2xl border border-black/10 dark:border-white/10 p-3 shadow-2xl shadow-black/20 space-y-3">
       <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
         <video
-          src="/assets/video/7.mp4"
+          src="/assets/video/longform/podcast-2.mp4"
           autoPlay
           muted
           loop
           playsInline
           preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover object-[50%_28%]"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
         <p className="absolute top-3 left-4 right-4 text-white text-sm md:text-base font-semibold truncate">
@@ -322,12 +323,16 @@ type LongFormVideo = {
   views?: string;
   /** The headline outcome, e.g. "+41% avg. view duration". */
   result?: string;
+  /** Still shown until `url` is filled in; YouTube's own thumbnail wins once it is. */
+  poster?: string;
 };
 
-// TODO: placeholders — paste the real YouTube link into `url` and swap in real titles/numbers.
+// Stills and titles are the real edits. TODO: paste each YouTube link into `url` to make the
+// cards playable, and replace the client names and view counts.
 const longFormVideos: LongFormVideo[] = [
   {
     url: "",
+    poster: "/assets/imgs/longform/podcast-1.webp",
     title: "Full podcast episode, multi-cam edit",
     client: "Client name",
     kind: "Podcast",
@@ -337,16 +342,18 @@ const longFormVideos: LongFormVideo[] = [
   },
   {
     url: "",
-    title: "Documentary-style YouTube video",
+    poster: "/assets/imgs/longform/podcast-2.webp",
+    title: "Podcast interview, two-camera cut",
     client: "Client name",
-    kind: "YouTube",
+    kind: "Podcast",
     duration: "27:33",
     views: "1.1M views",
     result: "1.1M views",
   },
   {
     url: "",
-    title: "Brand story film",
+    poster: "/assets/imgs/longform/interview-2.webp",
+    title: "On-location interview film",
     client: "Client name",
     kind: "Brand film",
     duration: "4:12",
@@ -354,6 +361,7 @@ const longFormVideos: LongFormVideo[] = [
   },
   {
     url: "",
+    poster: "/assets/imgs/longform/interview-1.webp",
     title: "Talking-head explainer with B-roll",
     client: "Client name",
     kind: "YouTube",
@@ -363,17 +371,19 @@ const longFormVideos: LongFormVideo[] = [
   },
   {
     url: "",
-    title: "Interview episode",
+    poster: "/assets/imgs/longform/gaming-1.webp",
+    title: "Gameplay highlights, commentary edit",
     client: "Client name",
-    kind: "Podcast",
+    kind: "Gaming",
     duration: "1:04:12",
     views: "530K views",
   },
   {
     url: "",
-    title: "Channel trailer",
+    poster: "/assets/imgs/longform/gaming-2.webp",
+    title: "Full gaming episode with overlays",
     client: "Client name",
-    kind: "YouTube",
+    kind: "Gaming",
     duration: "2:45",
     result: "+2.4K subs in 30 days",
   },
@@ -409,9 +419,10 @@ function PortfolioCard({
     />
   ) : (
     <img
-      src={posters[i % posters.length]}
+      src={v.poster ?? posters[i % posters.length]}
       alt=""
-      className="absolute inset-0 h-full w-full object-cover object-[50%_25%]"
+      loading="lazy"
+      className="absolute inset-0 h-full w-full object-cover"
     />
   );
 
@@ -600,18 +611,39 @@ export function DesignedThumb({
 }
 
 /* ---------- Thumbnails: a YouTube home feed where one thumbnail wins the click ---------- */
+// Paths are spelled out: this runs before `thumbDir` below is initialised.
 const feedTiles = [
-  { src: posters[0], title: "My honest morning routine", ch: "Slow Mornings", time: "14:20" },
+  {
+    src: "/assets/imgs/THUMBNAILS/hang-up.webp",
+    title: "The Hang Up",
+    ch: "Short Film",
+    time: "18:02",
+  },
   null, // ours
   {
-    src: posters[2],
-    title: "Testing cheap mics vs expensive mics",
-    ch: "Gear Notes",
-    time: "11:05",
+    src: "/assets/imgs/THUMBNAILS/cost-of-living.webp",
+    title: "Is $100K enough to live here?",
+    ch: "Cost of Living Check",
+    time: "15:01",
   },
-  { src: posters[3], title: "What I eat in a week", ch: "Fuel Daily", time: "9:47" },
-  { src: posters[4], title: "Q&A: answering your questions", ch: "Ask Maya", time: "32:18" },
-  { src: posters[1], title: "Podcast ep. 41 full episode", ch: "The Long Talk", time: "1:02:11" },
+  {
+    src: "/assets/imgs/THUMBNAILS/retirehow-ep02.webp",
+    title: "How long does your money last? | Episode 02",
+    ch: "RetireHow & DollarFar",
+    time: "24:04",
+  },
+  {
+    src: "/assets/imgs/THUMBNAILS/retirehow-ep04.webp",
+    title: "Where your money goes further | Episode 04",
+    ch: "RetireHow & DollarFar",
+    time: "27:05",
+  },
+  {
+    src: "/assets/imgs/THUMBNAILS/creator-income.webp",
+    title: "What YouTube actually paid me this month",
+    ch: "Creator Income",
+    time: "21:03",
+  },
 ];
 
 function FeedMeta({
@@ -696,7 +728,12 @@ export function ThumbnailClick() {
               className={cn(i > 3 && "hidden sm:block")}
             >
               <div className="relative aspect-video overflow-hidden rounded-lg bg-neutral-800">
-                <img src={f.src} alt="" className="h-full w-full object-cover object-top" />
+                <img
+                  src={f.src}
+                  alt={f.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
                 <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 text-[9px] font-semibold text-white">
                   {f.time}
                 </span>
@@ -716,12 +753,16 @@ export function ThumbnailClick() {
                 transition={at(1.9, 0.2)}
                 className="relative aspect-video overflow-hidden rounded-lg bg-neutral-900"
               >
-                <DesignedThumb src={posters[1]} text="I quit my job for this" sub="30 days later" />
+                <img
+                  src="/assets/imgs/THUMBNAILS/wealth-room.webp"
+                  alt="How I bought 5 properties at age 28"
+                  className="h-full w-full object-cover"
+                />
                 <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1 text-[9px] font-semibold text-white">
-                  18:42
+                  12:00
                 </span>
               </motion.div>
-              <FeedMeta title="I quit my job for this (30 days later)" ch="Your channel" ours>
+              <FeedMeta title="How I bought 5 properties at age 28" ch="Your channel" ours>
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -752,37 +793,37 @@ export function ThumbnailClick() {
 const thumbDir = "/assets/imgs/THUMBNAILS/";
 const thumbFeed = [
   {
-    src: "dda9e50c-4955-41a9-852b-ecbe56c21a0b.png",
+    src: "wealth-room.webp",
     title: "How I bought 5 properties at age 28",
     ch: "The Wealth Room Podcast",
     views: "1.2M views · 3 weeks ago",
   },
   {
-    src: "0763f14c-0caf-4237-9759-f3def66dd9e9.png",
+    src: "cost-of-living.webp",
     title: "Is $100K enough to live here?",
     ch: "Cost of Living Check",
     views: "684K views · 1 month ago",
   },
   {
-    src: "1aab68f0-c249-480a-8471-e95a747d362d.png",
+    src: "hang-up.webp",
     title: "The Hang Up",
     ch: "Short Film",
     views: "2.4M views · 2 months ago",
   },
   {
-    src: "c588e606-ada5-4f82-8278-580fe169edfe.png",
+    src: "creator-income.webp",
     title: "What YouTube actually paid me this month",
     ch: "Creator Income",
     views: "912K views · 5 days ago",
   },
   {
-    src: "Episode 2 (POC Video) (Thumbnail).png",
+    src: "retirehow-ep02.webp",
     title: "How long does your money last? | Episode 02",
     ch: "RetireHow & DollarFar",
     views: "430K views · 2 weeks ago",
   },
   {
-    src: "Episode 4 (POC Video) (Thumbnail).png",
+    src: "retirehow-ep04.webp",
     title: "Where your money goes further | Episode 04",
     ch: "RetireHow & DollarFar",
     views: "3.1M views · 4 months ago",
@@ -804,7 +845,7 @@ export function ThumbnailGrid() {
         >
           <div className="relative aspect-video rounded-xl overflow-hidden bg-neutral-900 transition-transform duration-300 group-hover:scale-[1.02]">
             <img
-              src={encodeURI(thumbDir + f.src)}
+              src={thumbDir + f.src}
               alt={f.title}
               loading="lazy"
               className="absolute inset-0 h-full w-full object-cover"
@@ -1118,13 +1159,13 @@ function JourneyMedia({ stage }: { stage: number }) {
     return (
       <>
         <video
-          src="/assets/video/7.mp4"
+          src="/assets/video/longform/interview-1.mp4"
           autoPlay
           muted
           loop
           playsInline
           preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover object-[50%_28%]"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <span className="absolute top-2 left-2 flex items-center gap-1.5 rounded bg-black/60 px-1.5 py-0.5 text-[10px] font-bold text-white">
           <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" /> REC
@@ -1139,7 +1180,11 @@ function JourneyMedia({ stage }: { stage: number }) {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="absolute inset-0"
       >
-        <DesignedThumb src={posters[4]} text="$0 → $10K" sub="in 90 days" tone="white" />
+        <img
+          src="/assets/imgs/THUMBNAILS/creator-income.webp"
+          alt="What YouTube actually paid me this month"
+          className="h-full w-full object-cover"
+        />
       </motion.div>
       {stage === 2 && (
         <div className="absolute inset-x-0 bottom-0 h-1 bg-white/20">
@@ -1175,7 +1220,7 @@ function JourneyCard({ stage }: { stage: number }) {
       </div>
       <div className="p-3">
         <p className="text-sm font-semibold leading-snug text-neutral-900 dark:text-white">
-          How I made my first $10K online
+          What YouTube actually paid me this month
         </p>
         {stage === 0 && (
           <p className="mt-1 text-xs text-neutral-500">Picked from this month's research</p>
@@ -1507,13 +1552,13 @@ function FlowPlayer({ format, children }: { format: Format; children?: React.Rea
       )}
     >
       <video
-        src={short ? "/assets/video/6.mp4" : "/assets/video/7.mp4"}
+        src={short ? "/assets/video/shortform/6.mp4" : "/assets/video/longform/podcast-1.mp4"}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
-        className={cn("absolute inset-0 h-full w-full object-cover", !short && "object-[50%_28%]")}
+        className="absolute inset-0 h-full w-full object-cover"
       />
       {children}
     </div>
@@ -2130,9 +2175,9 @@ export function ThumbnailProcess() {
 
               <CanvasFrame label="Brief" x={32} y={70} w={200} show active={stage === 0}>
                 <div className="bg-yellow-200 p-4 font-mono text-[11px] leading-relaxed text-neutral-800 -rotate-1">
-                  <p className="font-bold">"I tested every budget mic"</p>
-                  <p className="mt-2">Feeling: surprise</p>
-                  <p>Face: yes, shocked</p>
+                  <p className="font-bold">"Is $100K enough to live here?"</p>
+                  <p className="mt-2">Feeling: doubt</p>
+                  <p>Face: yes, thinking</p>
                   <p>Words: 4 max</p>
                   <p>Style: channel series</p>
                 </div>
@@ -2163,7 +2208,11 @@ export function ThumbnailProcess() {
                 active={stage === 2}
               >
                 <div className="relative aspect-video bg-neutral-900">
-                  <DesignedThumb src={posters[1]} text="Only one was worth it" sub="$1,200 test" />
+                  <img
+                    src="/assets/imgs/THUMBNAILS/cost-of-living.webp"
+                    alt="Is $100K enough to live here?"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </CanvasFrame>
 
@@ -2289,10 +2338,7 @@ export function SectionWrap({
 }) {
   return (
     <section className="relative w-full overflow-clip px-4 sm:px-6 md:px-8 py-12 md:py-20">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
-      />
+      <SectionGlow />
       <div className="relative mx-auto max-w-7xl">
         <div className="flex flex-col items-center text-center mb-10 md:mb-14">
           <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200/70 dark:border-white/10 bg-white/60 dark:bg-white/[0.04] backdrop-blur-md px-3 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import StarBorder from "./StarBorder";
+import { SectionGlow } from "./SectionGlow";
 
 interface FeatureCardProps {
   icon: React.ElementType;
@@ -166,18 +167,7 @@ export function WhyChooseUs() {
       id="why-choose-us"
       className="relative w-full overflow-hidden px-4 sm:px-6 md:px-8 py-12 md:py-20 bg-white dark:bg-black"
     >
-      {/* ambient background */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "radial-gradient(60% 50% at 50% 0%, rgba(59,130,246,0.08), transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
-      />
+      <SectionGlow />
 
       <div className="relative mx-auto max-w-7xl">
         <div className="flex flex-col items-center text-center mb-8 md:mb-12">

@@ -11,6 +11,7 @@ import {
   UserCheck,
 } from "lucide-react";
 import { GlareHover } from "./GlareHover";
+import { SectionGlow } from "./SectionGlow";
 
 export function CalendarCTA() {
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
@@ -56,6 +57,7 @@ export function CalendarCTA() {
 
   return (
     <section className="relative w-full px-4 py-16 md:py-24 overflow-hidden border-t border-black/5 dark:border-white/5 bg-[#f9fafb] dark:bg-[#030303] transition-colors duration-300">
+      <SectionGlow />
       {/* Ambient background glows */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d31]/10 blur-[100px] pointer-events-none" />
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-80 h-80 rounded-full bg-blue-500/10 blur-[120px] pointer-events-none" />

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
 import { Twitter, Linkedin, Instagram, Info } from "lucide-react";
+import { SectionGlow } from "./SectionGlow";
 
 const footerLinks = [
   { label: "Services", href: "/#services" },
@@ -29,19 +30,7 @@ export function Footer() {
           "liquid-glass backdrop-blur-xl",
         )}
       >
-        {/* ambient background */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(60% 50% at 50% 0%, rgba(59,130,246,0.08), transparent 70%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
-        />
+        <SectionGlow />
 
         {/* Logo & Text */}
         <div className="flex items-center gap-3">

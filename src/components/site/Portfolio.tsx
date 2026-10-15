@@ -1,17 +1,18 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, BadgeCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SpotlightCard from "./SpotlightCard";
+import { SectionGlow } from "./SectionGlow";
 import { serviceList } from "@/components/services/ServicePage";
-import { DesignedThumb, ThumbnailGrid, posters } from "@/components/services/ServiceVisuals";
+import { ThumbnailGrid } from "@/components/services/ServiceVisuals";
 
 const shortForm = [
-  "/assets/video/1.mp4",
-  "/assets/video/2.mp4",
-  "/assets/video/3.mp4",
-  "/assets/video/6.mp4",
+  "/assets/video/shortform/1.mp4",
+  "/assets/video/shortform/2.mp4",
+  "/assets/video/shortform/3.mp4",
+  "/assets/video/shortform/6.mp4",
 ];
 
 function ShortFormWork() {
@@ -44,85 +45,57 @@ function ShortFormWork() {
   );
 }
 
-// TODO: swap for real long-form client videos.
+// Real client edits. TODO: real channel names, view counts and run times — the rest is ours.
 const longForm = [
   {
-    src: posters[1],
-    video: "/assets/video/7.mp4",
-    text: "I almost quit",
-    tone: "yellow",
-    title: "I almost quit my podcast at episode 7. Here's why I didn't",
-    ch: "Founder Diaries",
+    src: "/assets/imgs/longform/podcast-1.webp",
+    video: "/assets/video/longform/podcast-1.mp4",
+    title: "Full podcast episode, multi-cam edit",
+    ch: "Client name",
     views: "412K views · 2 weeks ago",
     dur: "42:10",
   },
   {
-    src: posters[3],
-    img: "object-top scale-[1.35] origin-top",
-    video: "/assets/video/6.mp4",
-    text: "100 days later",
-    tone: "white",
-    title: "I trained every day for 100 days (full documentary)",
-    ch: "Move Daily",
+    src: "/assets/imgs/longform/podcast-2.webp",
+    video: "/assets/video/longform/podcast-2.mp4",
+    title: "Podcast interview, two-camera cut",
+    ch: "Client name",
     views: "1.1M views · 1 month ago",
     dur: "27:33",
   },
   {
-    src: posters[2],
-    video: "/assets/video/3.mp4",
-    text: "Made by hand",
-    tone: "red",
-    title: "The last calligrapher in the city",
-    ch: "Slow Craft",
+    src: "/assets/imgs/longform/interview-1.webp",
+    video: "/assets/video/longform/interview-1.mp4",
+    title: "Talking-head explainer with B-roll",
+    ch: "Client name",
     views: "268K views · 3 weeks ago",
     dur: "18:04",
   },
   {
-    src: posters[4],
-    video: "/assets/video/2.mp4",
-    text: "$0 → $10K",
-    sub: "full breakdown",
-    tone: "white",
-    title: "How I made my first $10K online: the full breakdown",
-    ch: "Side Hustle Lab",
+    src: "/assets/imgs/longform/interview-2.webp",
+    video: "/assets/video/longform/interview-2.mp4",
+    title: "On-location interview film",
+    ch: "Client name",
     views: "684K views · 1 month ago",
     dur: "35:20",
   },
   {
-    src: posters[0],
-    img: "object-[50%_75%]",
-    video: "/assets/video/1.mp4",
-    text: "The real secret",
-    tone: "yellow",
-    title: "What nobody tells you about building a brand",
-    ch: "Brand Room",
+    src: "/assets/imgs/longform/gaming-1.webp",
+    video: "/assets/video/longform/gaming-1.mp4",
+    title: "Gameplay highlights, commentary edit",
+    ch: "Client name",
     views: "530K views · 5 days ago",
     dur: "1:04:12",
   },
   {
-    src: posters[1],
-    video: "/assets/video/5.mp4",
-    text: "Ask me anything",
-    tone: "red",
-    title: "Q&A: money, burnout and hiring my first editor",
-    ch: "Founder Diaries",
+    src: "/assets/imgs/longform/gaming-2.webp",
+    video: "/assets/video/longform/gaming-2.mp4",
+    title: "Full gaming episode with overlays",
+    ch: "Client name",
     views: "198K views · 6 days ago",
     dur: "58:47",
   },
-] as {
-  src: string;
-  img?: string;
-  video: string;
-  text: string;
-  sub?: string;
-  tone: Tone;
-  title: string;
-  ch: string;
-  views: string;
-  dur: string;
-}[];
-
-type Tone = "yellow" | "white" | "red";
+];
 
 function LongFormWork() {
   const [hover, setHover] = React.useState<number | null>(null);
@@ -136,7 +109,12 @@ function LongFormWork() {
           onMouseLeave={() => setHover(null)}
         >
           <div className="relative aspect-video rounded-xl overflow-hidden bg-neutral-900 transition-transform duration-300 group-hover:scale-[1.02]">
-            <DesignedThumb src={v.src} img={v.img} text={v.text} sub={v.sub} tone={v.tone} />
+            <img
+              src={v.src}
+              alt={v.title}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
             {/* YouTube-style hover preview */}
             {hover === i && (
               <>
@@ -146,7 +124,7 @@ function LongFormWork() {
                   muted
                   loop
                   playsInline
-                  className="absolute inset-0 h-full w-full object-cover object-[50%_28%]"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
                 <motion.span
                   className="absolute bottom-0 left-0 h-1 bg-[#ff0033]"
@@ -184,124 +162,39 @@ function ThumbnailWork() {
   );
 }
 
-// TODO: swap for real managed channels.
-const channels: {
-  name: string;
-  /** Link to the real channel; makes the whole card clickable. */
-  url?: string;
-  handle: string;
-  avatar: string;
-  banner: string;
-  subs: string;
-  videos: string;
-  uploads: { src: string; img?: string; text: string; tone: Tone }[];
-}[] = [
+// Real managed channels, straight from YouTube Studio.
+const dashboards = [
   {
-    name: "Founder Diaries",
-    handle: "@founderdiaries",
-    avatar: posters[1],
-    banner: posters[4],
-    subs: "48K",
-    videos: "212",
-    uploads: [
-      { src: posters[1], text: "Nobody tells you", tone: "yellow" },
-      { src: posters[4], text: "$0 → $10K", tone: "white" },
-      { src: posters[1], text: "I almost quit", tone: "red" },
-    ],
+    src: "/assets/imgs/dashboards/retirehow.webp",
+    name: "RetireHow",
+    note: "14.5K views and 89.8 watch hours in 7 days — 99.3% new viewers.",
   },
   {
-    name: "Move Daily",
-    handle: "@movedaily",
-    avatar: posters[3],
-    banner: posters[2],
-    subs: "96K",
-    videos: "340",
-    uploads: [
-      {
-        src: posters[3],
-        img: "object-top scale-[1.35] origin-top",
-        text: "Day 1 vs 100",
-        tone: "yellow",
-      },
-      { src: posters[0], img: "object-[50%_75%]", text: "The 5AM myth", tone: "white" },
-      { src: posters[2], text: "Don't skip this", tone: "red" },
-    ],
+    src: "/assets/imgs/dashboards/wanderbloom.webp",
+    name: "WanderBloom",
+    note: "125.4K views, 7.8K watch hours and +1.2K subscribers in 28 days.",
   },
 ];
 
 export function ChannelWork() {
   return (
-    <div className="grid lg:grid-cols-2 gap-6">
-      {channels.map((c) => (
-        <a
-          key={c.name}
-          href={c.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 bg-white/70 dark:bg-[#111113] transition-colors [&[href]]:hover:border-[#ff4d31]/50"
+    <div className="mx-auto w-[90%] grid lg:grid-cols-2 gap-6">
+      {dashboards.map((d) => (
+        <figure
+          key={d.name}
+          className="overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-[#111113]"
         >
-          {/* Banner */}
-          <div className="relative h-28 md:h-32 overflow-hidden">
-            <img
-              src={c.banner}
-              alt=""
-              className="h-full w-full object-cover scale-110 blur-[2px] brightness-75"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#ff4d31]/60 via-black/20 to-transparent" />
-            <p className="absolute left-5 top-4 text-2xl md:text-3xl font-black uppercase tracking-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,.6)]">
-              {c.name}
-            </p>
-          </div>
-
-          <div className="px-5 pb-5">
-            <div className="relative z-10 flex items-end gap-4 -mt-8">
-              <img
-                src={c.avatar}
-                alt=""
-                className="h-16 w-16 md:h-20 md:w-20 shrink-0 rounded-full object-cover object-top ring-4 ring-white dark:ring-[#111113]"
-              />
-              <div className="min-w-0 pb-1">
-                <p className="flex items-center gap-1.5 font-bold text-neutral-900 dark:text-white">
-                  {c.name}
-                  <BadgeCheck className="h-4 w-4 text-neutral-500" />
-                </p>
-                <p className="text-xs text-neutral-500 truncate">
-                  {c.handle} · {c.subs} subscribers · {c.videos} videos
-                </p>
-              </div>
-              <span className="ml-auto mb-1 shrink-0 rounded-full bg-neutral-900 dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-neutral-900">
-                Subscribe
-              </span>
-            </div>
-
-            <div className="mt-4 flex gap-5 border-b border-black/10 dark:border-white/10 text-sm">
-              {["Home", "Videos", "Shorts", "Community"].map((tab) => (
-                <span
-                  key={tab}
-                  className={cn(
-                    "pb-2",
-                    tab === "Videos"
-                      ? "border-b-2 border-neutral-900 dark:border-white font-semibold text-neutral-900 dark:text-white"
-                      : "text-neutral-500",
-                  )}
-                >
-                  {tab}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-4 grid grid-cols-3 gap-2.5">
-              {c.uploads.map((u, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-video rounded-md overflow-hidden bg-neutral-900"
-                >
-                  <DesignedThumb src={u.src} img={u.img} text={u.text} tone={u.tone} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </a>
+          <img
+            src={d.src}
+            alt={`${d.name} YouTube Studio dashboard`}
+            loading="lazy"
+            className="w-full border-b border-black/10 dark:border-white/10"
+          />
+          <figcaption className="px-5 py-4">
+            <p className="font-bold text-neutral-900 dark:text-white">{d.name}</p>
+            <p className="mt-1 text-sm text-neutral-500">{d.note}</p>
+          </figcaption>
+        </figure>
       ))}
     </div>
   );
@@ -324,17 +217,7 @@ export function Portfolio() {
       id="portfolio"
       className="relative w-full overflow-hidden px-4 sm:px-6 md:px-8 py-12 md:py-20 bg-white dark:bg-black/50"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "radial-gradient(60% 50% at 50% 0%, rgba(59,130,246,0.08), transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
-      />
+      <SectionGlow />
 
       <div className="relative mx-auto max-w-7xl">
         <div className="flex flex-col items-center text-center mb-10">

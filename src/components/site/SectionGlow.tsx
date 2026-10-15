@@ -17,15 +17,15 @@ export function SectionGlow({
     <>
       <div
         aria-hidden
-        className={cn("pointer-events-none absolute inset-0", className)}
+        className={cn("pointer-events-none absolute inset-0 z-0", className)}
         style={{
-          background: "radial-gradient(60% 50% at 50% 0%, rgba(59,130,246,0.08), transparent 70%)",
+          background: "radial-gradient(60% 50% at 50% 0%, rgba(59,130,246,0.12), transparent 70%)",
         }}
       />
       {withDivider && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent z-0"
         />
       )}
     </>

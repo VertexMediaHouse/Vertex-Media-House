@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, Code2, Workflow, Database, Plug } from "lucide-react";
+import { SectionGlow } from "./SectionGlow";
 
 const TECH_HOUSE = "https://vertextechhouse.com";
 
@@ -20,6 +21,7 @@ const offers = [
 export function TechHouseCTA() {
   return (
     <section className="relative w-full px-4 sm:px-6 md:px-8 py-12 md:py-16">
+      <SectionGlow />
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-neutral-950 text-white">
         {/* blueprint grid + glow */}
         <div
@@ -38,17 +40,17 @@ export function TechHouseCTA() {
         />
         <div
           aria-hidden
-          className="absolute -right-16 -bottom-24 h-72 w-72 rounded-full bg-sky-500/20 blur-3xl"
+          className="absolute -right-16 -bottom-24 h-72 w-72 rounded-full bg-[#ff4d31]/20 blur-3xl"
         />
 
         <div className="relative grid lg:grid-cols-2 gap-10 p-6 sm:p-10 md:p-14 items-center">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-sky-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 font-mono text-[11px] uppercase tracking-widest text-[#ff8a6b]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#ff4d31] animate-pulse" />
               Our sister studio
             </span>
             <h2 className="mt-6 text-4xl md:text-5xl font-bold tracking-tight leading-[1.05]">
-              Need something <span className="text-sky-400">technical?</span>
+              Need something <span className="text-[#ff4d31]">technical?</span>
             </h2>
             <p className="mt-5 max-w-lg text-lg text-neutral-400">
               We make the content. <b className="text-white font-semibold">Vertex Tech House</b>{" "}
@@ -59,7 +61,7 @@ export function TechHouseCTA() {
             <ul className="mt-7 grid grid-cols-2 gap-3 max-w-md">
               {offers.map((o) => (
                 <li key={o.label} className="flex items-center gap-2.5 text-sm text-neutral-300">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 ring-1 ring-white/10 text-sky-300">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 ring-1 ring-white/10 text-[#ff8a6b]">
                     <o.icon className="h-4 w-4" />
                   </span>
                   {o.label}
@@ -96,7 +98,7 @@ export function TechHouseCTA() {
                   transition={{ delay: 0.3 + i * 0.5 }}
                 >
                   <p className="text-neutral-300">
-                    <span className="text-sky-400">$</span> {cmd}
+                    <span className="text-[#ff4d31]">$</span> {cmd}
                   </p>
                   <motion.p
                     initial={{ opacity: 0 }}
@@ -110,7 +112,7 @@ export function TechHouseCTA() {
                 </motion.div>
               ))}
               <p className="text-neutral-300">
-                <span className="text-sky-400">$</span>{" "}
+                <span className="text-[#ff4d31]">$</span>{" "}
                 <span className="inline-block h-4 w-2 -mb-0.5 bg-neutral-300 animate-pulse" />
               </p>
             </div>

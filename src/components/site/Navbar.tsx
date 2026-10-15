@@ -1,10 +1,12 @@
 import * as React from "react";
 import { Logo } from "./Logo";
 import { Link } from "@tanstack/react-router";
-import { Menu, FolderHeart, HelpCircle, Info, ChevronDown, Tag } from "lucide-react";
+import { Menu, FolderHeart, HelpCircle, Info, ChevronDown, Tag, Download } from "lucide-react";
 import { serviceList } from "@/components/services/ServicePage";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+
+const BROCHURE = "/assets/vertex-media-house-company-profile.pdf";
 
 const navLinks = [
   { label: "Portfolio", href: "/#portfolio", icon: FolderHeart },
@@ -142,11 +144,45 @@ export function Navbar() {
                 >
                   Book a Call
                 </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="mt-2 rounded-full border-neutral-200 dark:border-white/10 text-neutral-700 dark:text-neutral-300"
+                >
+                  <a
+                    href={BROCHURE}
+                    download="Vertex Media House - Company Profile.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <Download />
+                    Brochure
+                  </a>
+                </Button>
               </div>
             </SheetContent>
           </Sheet>
         </div>
       </nav>
+
+      {/* Floated outside the nav pill, same as vertextechhouse.com */}
+      <Button
+        asChild
+        variant="outline"
+        title="Download our company profile (PDF)"
+        className="pointer-events-auto absolute right-4 top-1/2 hidden -translate-y-1/2 rounded-x liquid-glass border-white/40 dark:border-white/10 text-neutral-700 dark:text-neutral-300 shadow-lg shadow-black/5 transition-transform hover:scale-[1.03] xl:inline-flex"
+      >
+        <a
+          href={BROCHURE}
+          download="Vertex Media House - Company Profile.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Download />
+          Brochure
+        </a>
+      </Button>
     </header>
   );
 }

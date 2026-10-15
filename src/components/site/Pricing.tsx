@@ -1,7 +1,8 @@
 import * as React from "react";
 import { animate, motion } from "framer-motion";
-import { ArrowRight, BadgePercent, Check, Eye, EyeOff, Mail, Minus, Plus } from "lucide-react";
+import { ArrowRight, BadgePercent, Check, ChevronDown, Mail, Minus, Plus } from "lucide-react";
 import { Logo } from "./Logo";
+import { SectionGlow } from "./SectionGlow";
 import { cn } from "@/lib/utils";
 import { services } from "@/components/services/ServicePage";
 
@@ -103,7 +104,7 @@ export const plans = [
   {
     name: "Pro",
     tagline: "For creators going full-time",
-    price: 1799,
+    price: 1499,
     items: [
       { key: "long", label: "long videos", qty: 12 },
       { key: "short", label: "short videos", qty: 24 },
@@ -399,66 +400,73 @@ function Builder() {
 function Breakdown({ plan }: { plan: (typeof plans)[number] }) {
   const [open, setOpen] = React.useState(false);
   return (
-    <div className="relative mt-4 overflow-hidden rounded-2xl border border-neutral-200/70 dark:border-white/10 bg-white/70 dark:bg-white/[0.03] p-5">
-      <div
-        aria-hidden={!open}
-        className={cn(
-          "text-sm transition-[filter,opacity] duration-500",
-          open ? "blur-none opacity-100" : "pointer-events-none select-none blur-[6px] opacity-60",
-        )}
-      >
-        <p className="flex justify-between border-b border-neutral-200/70 dark:border-white/10 pb-2 font-mono text-[10px] uppercase tracking-widest text-neutral-500">
-          <span>Item</span>
-          <span>Cost</span>
-        </p>
-        <div className="space-y-2 py-3">
-          {plan.items.map((it) => (
-            <p key={it.label} className="flex justify-between gap-3">
-              <span className="text-neutral-600 dark:text-neutral-400">
-                {it.qty} {it.label} × {usd(it.rate)}
-              </span>
-              <span className="tabular-nums text-neutral-900 dark:text-white">
-                {usd(it.qty * it.rate)}
-              </span>
-            </p>
-          ))}
-          {plan.free.map((f) => (
-            <p key={f} className="flex justify-between gap-3">
-              <span className="text-neutral-600 dark:text-neutral-400">{f}</span>
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400">Free</span>
-            </p>
-          ))}
-        </div>
-        <div className="space-y-2 border-t border-dashed border-neutral-300 dark:border-white/15 pt-3">
-          <p className="flex justify-between gap-3">
-            <span className="text-neutral-600 dark:text-neutral-400">Total value</span>
-            <span className="tabular-nums text-neutral-500 line-through">{usd(plan.value)}</span>
-          </p>
-          <p className="flex justify-between gap-3 font-semibold">
-            <span className="text-neutral-900 dark:text-white">You pay</span>
-            <span className="tabular-nums">
-              <span className="text-[#ff4d31]">{usd(plan.price)}</span>{" "}
-              <span className="text-emerald-600 dark:text-emerald-400">
-                (save {usd(plan.save)})
-              </span>
-            </span>
-          </p>
-        </div>
-      </div>
+    <div className="mt-4 overflow-hidden rounded-2xl border border-neutral-200/70 dark:border-white/10 bg-white/70 dark:bg-white/[0.03]">
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
+        className="flex w-full cursor-pointer items-center justify-between gap-2 px-5 py-3.5 text-sm font-semibold text-neutral-900 dark:text-white"
+      >
+        {open ? "Hide breakdown" : "See breakdown"}
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 text-neutral-500 transition-transform duration-300",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+      {/* grid-rows 0fr→1fr collapses to the content's own height, no JS measuring */}
+      <div
+        inert={!open}
         className={cn(
-          "flex items-center justify-center gap-2 rounded-xl text-sm font-semibold transition-all",
-          open
-            ? "mt-4 w-full border border-neutral-200 dark:border-white/10 py-2 text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white"
-            : "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-900 px-5 py-2.5 text-white shadow-xl shadow-black/20 hover:scale-[1.03] dark:bg-white dark:text-neutral-900",
+          "grid transition-[grid-template-rows] duration-300 ease-out",
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
-        {open ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-        {open ? "Hide breakdown" : "See breakdown"}
-      </button>
+        <div className="overflow-hidden">
+          <div className="border-t border-neutral-200/70 dark:border-white/10 px-5 pb-5 pt-4 text-sm">
+            <p className="flex justify-between border-b border-neutral-200/70 dark:border-white/10 pb-2 font-mono text-[10px] uppercase tracking-widest text-neutral-500">
+              <span>Item</span>
+              <span>Cost</span>
+            </p>
+            <div className="space-y-2 py-3">
+              {plan.items.map((it) => (
+                <p key={it.label} className="flex justify-between gap-3">
+                  <span className="text-neutral-600 dark:text-neutral-400">
+                    {it.qty} {it.label} × {usd(it.rate)}
+                  </span>
+                  <span className="tabular-nums text-neutral-900 dark:text-white">
+                    {usd(it.qty * it.rate)}
+                  </span>
+                </p>
+              ))}
+              {plan.free.map((f) => (
+                <p key={f} className="flex justify-between gap-3">
+                  <span className="text-neutral-600 dark:text-neutral-400">{f}</span>
+                  <span className="font-semibold text-emerald-600 dark:text-emerald-400">Free</span>
+                </p>
+              ))}
+            </div>
+            <div className="space-y-2 border-t border-dashed border-neutral-300 dark:border-white/15 pt-3">
+              <p className="flex justify-between gap-3">
+                <span className="text-neutral-600 dark:text-neutral-400">Total value</span>
+                <span className="tabular-nums text-neutral-500 line-through">
+                  {usd(plan.value)}
+                </span>
+              </p>
+              <p className="flex justify-between gap-3 font-semibold">
+                <span className="text-neutral-900 dark:text-white">You pay</span>
+                <span className="tabular-nums">
+                  <span className="text-[#ff4d31]">{usd(plan.price)}</span>{" "}
+                  <span className="text-emerald-600 dark:text-emerald-400">
+                    (save {usd(plan.save)})
+                  </span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -590,13 +598,7 @@ export function PricingSections() {
   return (
     <>
       <section className="relative w-full overflow-hidden px-4 sm:px-6 md:px-8 pt-10 pb-12 md:pt-16 md:pb-20">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: "radial-gradient(60% 50% at 50% 0%, rgba(255,77,49,0.08), transparent 70%)",
-          }}
-        />
+        <SectionGlow />
         <div className="relative mx-auto max-w-7xl">
           <SectionHead
             as="h1"
@@ -613,10 +615,7 @@ export function PricingSections() {
       </section>
 
       <section className="relative w-full overflow-hidden px-4 sm:px-6 md:px-8 py-12 md:py-20">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
-        />
+        <SectionGlow />
         <div className="relative mx-auto max-w-7xl">
           <SectionHead
             label="Packages"

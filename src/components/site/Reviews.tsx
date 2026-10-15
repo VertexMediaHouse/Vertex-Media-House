@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import SpotlightCard from "./SpotlightCard";
+import { SectionGlow } from "./SectionGlow";
 import { cn } from "@/lib/utils";
 import { PlatformIcons, type Platform } from "./PlatformIcons";
 
@@ -21,23 +22,56 @@ interface VideoTestimonial {
   platforms: Platform[];
 }
 
-// Home page only. TODO: real designations and platforms for each client.
-export const homeReviews: Review[] = [
+// Verbatim from the marketplace reviews. TODO: platform tags are assumed, not from the reviews.
+const clientReviews: Review[] = [
   {
-    review: "Very good to work with. Communicated well through the chat through the process.",
-    name: "Tomwdalls",
-    position: "Designation",
+    review:
+      "Amazing work. He went above and beyond. The work was delivered in a timely manner and he did multiple revisions for me with no questions asked. I'm truly impressed and can't wait to do more work with him. Thank you for the exceptional product.",
+    name: "greggamaral",
+    position: "United States",
     service: "Video Editing",
     platforms: ["shorts", "instagram", "tiktok"],
   },
   {
-    review: "I am extremely happy and satisfied with the results. Every shot is perfect.",
-    name: "Abelwal",
-    position: "Designation",
+    review: "Very good to work with. Communicated well through the chat through the process.",
+    name: "tomwdallas",
+    position: "United States",
     service: "Video Editing",
     platforms: ["shorts", "instagram"],
   },
+  {
+    review:
+      "I have definitely found my go to person for all marketing creatives! This is our second time working together, and it exceeded my expectations, again.",
+    name: "primeonecredit",
+    position: "United States",
+    service: "Video Editing",
+    platforms: ["shorts", "instagram", "tiktok"],
+  },
+  {
+    review: "Exceeded my expectations in every way!",
+    name: "vodusrich",
+    position: "United States",
+    service: "Video Editing",
+    platforms: ["shorts", "tiktok"],
+  },
+  {
+    review: "Great work, fast to communicate and exceeded expectations.",
+    name: "blaiselarrab139",
+    position: "United States",
+    service: "Video Editing",
+    platforms: ["shorts", "instagram"],
+  },
+  {
+    review:
+      "Consistently outstanding work. Professional, strategic, and always delivered with care. Highly recommended!",
+    name: "omowaleaduayi",
+    position: "United States",
+    service: "Video Editing",
+    platforms: ["shorts", "instagram", "tiktok"],
+  },
 ];
+
+export const homeReviews = clientReviews;
 
 // Home page only. TODO: drop the two testimonial videos into public/assets/video/testimonials/.
 export const videoTestimonials: VideoTestimonial[] = [
@@ -85,20 +119,7 @@ function VideoCard({ t }: { t: VideoTestimonial }) {
   );
 }
 
-const reviews: Review[] = [
-  {
-    review: "Very good to work with. Communicated well through the chat through the process.",
-    name: "Tomwdalls",
-    position: "",
-    service: "Video Editing",
-  },
-  {
-    review: "I am extremely happy and satisfied with the results. Every shot is perfect.",
-    name: "Abelwal",
-    position: "",
-    service: "Video Editing",
-  },
-];
+const reviews = clientReviews;
 
 const ReviewCard = ({ review, name, position, platforms }: Review) => {
   return (
@@ -154,18 +175,7 @@ export function Reviews({
       id="reviews"
       className="relative w-full overflow-hidden py-12 md:py-20 bg-white dark:bg-black"
     >
-      {/* ambient background */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "radial-gradient(60% 50% at 50% 0%, rgba(59,130,246,0.08), transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 dark:via-white/10 to-transparent"
-      />
+      <SectionGlow />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 md:px-8 mb-10 flex flex-col items-center text-center">
         <motion.span
